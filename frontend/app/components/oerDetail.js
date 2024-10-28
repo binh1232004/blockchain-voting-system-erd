@@ -1,0 +1,38 @@
+'use client'
+import Link from "next/link"
+import useNotificationCustom from "../hooks/useNotificationCustom"
+import { useEffect, useState } from "react";
+import Image from "next/image";
+export default function OerDetail({title, pdf, imgUrl, description}){
+    const {
+        openNotificationWithIcon,
+        contextHolder
+    } = useNotificationCustom();
+    const [typeNotification, messageNotification, descriptionNotification] = ['error', 'Sorry, no Ethereum wallet was detected.', "Please install MetaMask"]
+    const onClickHandle = () => {
+        if(!window.ethereum){
+           openNotificationWithIcon(typeNotification, messageNotification, descriptionNotification);
+           return;
+        }
+        
+        
+    }
+    return (
+        <div className="flex flex-row space-x-2 mt-5">
+            {contextHolder} 
+            <div className="w-1/2 bg-gray-700 h-[100px]">
+            <Image
+                    src={imgUrl}     
+                    width={100}
+                    height={100}
+                    alt="Image of open educational text book"
+            />
+            </div>
+            <div className="w-1/2 bg-red-700 h-[100px]">
+                <h1>{title}</h1>
+                <button className=" mt-2 p-1 bg-slate-300" onClick={onClickHandle}>vote</button>
+                <p>{description}</p>
+            </div>
+        </div> 
+    )
+}
