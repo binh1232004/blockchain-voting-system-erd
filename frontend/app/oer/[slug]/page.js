@@ -24,10 +24,3 @@ export default function Page({params}) {
         </div>
     )
 }
-// export async function generateStaticParams(){
-//     return [
-//         {slug: 'oer1'},
-//         {slug: 'oer2'},
-//         {slug: 'oer3'},
-//     ]
-// }

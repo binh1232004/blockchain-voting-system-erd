@@ -1,5 +1,7 @@
-import { fetchToGetImgUrlOpenTextBook } from "@/app/utils";
-import slugify from "slugify";
+import { 
+    fetchToGetImgUrlOpenTextBook,
+    encodeSlug
+ } from "@/app/utils";
 export async function GET() {
     const OER_API = 'https://open.umn.edu/opentextbooks/textbooks?format=json&license=Attribution&q=Programming';
     const res = await fetch(OER_API, {
@@ -15,7 +17,7 @@ export async function GET() {
         const imgUrl = await fetchToGetImgUrlOpenTextBook(element.url);
         element['img_url'] = imgUrl;
         // store proprty slug in api to compare params.slug in dynamics routing 
-        const slug = encodeURIComponent(slugify(element.title));
+        const slug = encodeSlug(element.title);
         element['slug'] = slug;
     }
 

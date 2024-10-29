@@ -1,9 +1,7 @@
 'use client'
 import OerReview from "./components/oerReview.js";
-import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { convertTitleToUrlString } from "./utils.js";
-import slugify from "slugify";
+import { encodeSlug } from "./utils.js";
 export default function Home() {
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data: oer, error, isLoading } = useSWR(
@@ -18,7 +16,7 @@ export default function Home() {
         <OerReview 
           key={index}
           title={item.title}
-          route={`oer/${encodeURIComponent(slugify(item.title))}`}
+          route={`oer/${encodeSlug(item.title)}`}
           imgUrl={
             item.img_url
           }

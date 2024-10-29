@@ -1,4 +1,5 @@
 import * as cheerio from 'cheerio';
+import slugify from 'slugify';
 /**
  * 
  * @param {string} websiteLink link of website open textbook library
@@ -16,4 +17,14 @@ export async function fetchToGetImgUrlOpenTextBook(websiteLink){
 
   const imgUrl = $("img.cover").attr('src');
   return imgUrl;
+}
+/**
+ * 
+ * @param {string} slug 
+ * @returns {string} encoded slug
+ */
+export function encodeSlug(slug){
+  if(!slug)
+    throw new Error('Need a string for slug');
+  return encodeURIComponent(slugify(slug)) 
 }
