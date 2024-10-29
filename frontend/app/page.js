@@ -18,7 +18,7 @@ export default function Home() {
         <OerReview 
           key={index}
           title={item.title}
-          route={`oer/${(item.title)}`}
+          route={`oer/${encodeURIComponent(slugify(item.title))}`}
           imgUrl={
             item.img_url
           }

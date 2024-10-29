@@ -29,4 +29,7 @@ console.log(ba, hi)
 //1 2
 ```
 # BUG
-1. encode, decode slug got wrong like "Introduction to Programming using Fortran 95/2003/2008" will go to another wrong page
+~~1. encode, decode slug got wrong like "Introduction to Programming using Fortran 95/2003/2008" will go to another wrong page and sometimes can not find that oer based on slug~~
+Solution
+Params.slug in dynamic routing of nextjs encode slug like using encodeURIComponent(slugify(slug))
+so storing encodeURIComponent(slugify(slug)) in api to find right oer when comparing params.slug

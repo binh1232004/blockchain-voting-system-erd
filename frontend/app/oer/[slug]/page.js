@@ -3,6 +3,7 @@ import OerDetail from "@/app/components/oerDetail"
 import Link from "next/link"
 import { decodeSlug } from "@/app/utils"
 import useSWR from "swr";
+import slugify from "slugify";
 export default function Page({params}) {
     const fetcher = (url) => fetch(url).then((res) => res.json());
     const { data: oer, error, isLoading } = useSWR(
@@ -11,12 +12,11 @@ export default function Page({params}) {
     );
     if (error) return "An error has occurred.";
     if (isLoading) return "Loading...";
-    const actualTitle = decodeURIComponent(params.slug);
-    const detailOer = oer.data.find((item) => item.title === actualTitle);
+    const detailOer = oer.data.find((item) => item.slug === params.slug);
     return (
         <div>
             <OerDetail
-                title={actualTitle}
+                title={detailOer.title}
                 description={detailOer.description}
                 imgUrl={detailOer.img_url}
             />

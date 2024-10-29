@@ -5,6 +5,8 @@ import * as cheerio from 'cheerio';
  * @returns {Promise<String>} imgUrl of open textbook library
  */
 export async function fetchToGetImgUrlOpenTextBook(websiteLink){
+  if(!websiteLink)
+      throw new Error('Need a string for websiteLink')
     // Fetch the HTML content of the web page to be scraped
   const response = await fetch(websiteLink);
   const html = await response.text();
@@ -14,8 +16,4 @@ export async function fetchToGetImgUrlOpenTextBook(websiteLink){
 
   const imgUrl = $("img.cover").attr('src');
   return imgUrl;
-}
-export function decodeSlug(encodeSlug){
-  const replaceWhiteSpace = encodeSlug.replace(/-+/g, ' ');
-  return replaceWhiteSpace;
 }
