@@ -28,3 +28,16 @@ export function encodeSlug(slug){
     throw new Error('Need a string for slug');
   return encodeURIComponent(slugify(slug)) 
 }
+/**
+ * 
+ * @param {string} urlArg 
+ * @returns {Boolean}
+ */
+export function isValidUrl(urlArg){
+  try {
+    const url = new URL(urlArg);
+  } catch(error){
+    return false;
+  }
+  return true;
+}

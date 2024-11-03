@@ -2,6 +2,7 @@
 import useNotificationCustom from "../hooks/useNotificationCustom"
 import Image from "next/image";
 import useMetaMask from "../hooks/useMetaMask";
+import { isValidUrl } from "../utils";
 export default function OerDetail({title, pdf, imgUrl, description}){
     const {
         openNotificationWithIcon,
@@ -28,12 +29,13 @@ export default function OerDetail({title, pdf, imgUrl, description}){
         console.log(userWalletAddress, inforToken);
         
     }
+    const OER_COVER_DEFAULT  = '/oerTextBookCover.png';
     return (
         <div className="flex flex-row space-x-2 mt-5">
             {contextHolder} 
             <div className="w-1/2 bg-gray-700 h-[100px]">
             <Image
-                    src={imgUrl}     
+                    src={isValidUrl(imgUrl) ? imgUrl : OER_COVER_DEFAULT}     
                     width={100}
                     height={100}
                     alt="Image of open educational text book"
