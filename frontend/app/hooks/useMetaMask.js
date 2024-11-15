@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ethers } from 'ethers';
 import contractAddress from "../contracts/contract-address.json";
 import tokenArtifact from "../contracts/Token.json";
@@ -13,10 +13,15 @@ export default function useMetaMask(openNotificationWithIcon){
     const [userWalletAddress, setUserWalletAddress] = useState(undefined);
     
     /**
-     * State to store token information
-     * @type {[{name: string, symbol: string}, React.Dispatch<React.SetStateAction<TokenInfo>>]}
+     * State to store general token information
+     * @type {[{name: string, symbol: string, deployedContract: Proxy }, React.Dispatch<React.SetStateAction<TokenInfo>>]}
      */
     const [inforToken, setInforToken] = useState({});
+    /**
+     * State to store user's token information
+     * @type {[{balance: number}, React.Dispatch<React.SetStateAction<TokenInfo>>]}
+     */
+    const [userToken, setUserToken] = useState({});
 
     // Check if MetaMask is connected to the correct network (localhost/hardhat)
     // const switchNetwork = async () => {
@@ -29,24 +34,32 @@ export default function useMetaMask(openNotificationWithIcon){
     //         });
     //     }
     // }
-
     /**
-     * Assign information token's name and symbol to react state
+     * 
+     * @returns {Proxy} a contract proxy of etherjs
+     */
+    const getContract = async () => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const contract = new ethers.Contract(
+            contractAddress.Token,
+            tokenArtifact.abi,
+            signer
+        );
+        return contract;
+    }
+    /**
+     * update state inforToken token's name, symbol and deployedContract 
      */
     const initializeEthers = async () => {
         try {
-            const provider = new ethers.BrowserProvider(window.ethereum);
-            const signer = await provider.getSigner();
-            const contract = new ethers.Contract(
-                contractAddress.Token,
-                tokenArtifact.abi,
-                signer
-            );
+            const contract = await getContract();
             const symbol = await contract.symbol();
             const name = await contract.name();
             setInforToken({
                 "symbol": symbol,
-                "name": name
+                "name": name,
+                "deployedContract": contract
             });
         } catch (error) {
             console.error("Error initializing ethers:", error);
@@ -55,6 +68,16 @@ export default function useMetaMask(openNotificationWithIcon){
                 errorMessage = 'Contract not deployed or wrong network. Please ensure contract is deployed on the current network.';
             }
         }
+    }
+    /**
+     * @param {Proxy} contract 
+     * @param {string} userPurseAddress 
+     */
+    const updateBalance = async () => {
+        const contract = await getContract();
+        const userPurseAddress = await connectWallet();
+        const balance = await contract.balanceOf(userPurseAddress);
+        setUserToken({ balance: balance })
     }
     /**
      * 
@@ -73,15 +96,22 @@ export default function useMetaMask(openNotificationWithIcon){
     /**
      * 
      * @param {string} address Address of user's wallet
+     * @description update state for userWalletAddres, inforToken
      */
     const initializeValue = async (address) => {
         setUserWalletAddress(address);
         await initializeEthers();
-    }
+        // Wait for next render when state is updated
+        updateBalance(address);
+     }
     return {
+        //value
         userWalletAddress,
         inforToken,
+        userToken,
+        //function
         connectWallet,
-        initializeValue
+        initializeValue,
+        updateBalance
     };
 }

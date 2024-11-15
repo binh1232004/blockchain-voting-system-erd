@@ -3,6 +3,7 @@ import useNotificationCustom from "../hooks/useNotificationCustom"
 import Image from "next/image";
 import useMetaMask from "../hooks/useMetaMask";
 import { isValidUrl } from "../utils";
+import { useEffect } from "react";
 export default function OerDetail({title, pdf, imgUrl, description}){
     const {
         openNotificationWithIcon,
@@ -14,10 +15,14 @@ export default function OerDetail({title, pdf, imgUrl, description}){
         "Please install MetaMask"
     ];
     const {
+        //value
         userWalletAddress,
         inforToken,
+        userToken,
+        //function
         connectWallet,
-        initializeValue
+        initializeValue,
+        updateBalance
     } = useMetaMask(openNotificationWithIcon);
 
     
@@ -26,8 +31,8 @@ export default function OerDetail({title, pdf, imgUrl, description}){
         if(!userPurseAddress)
             return;
         await initializeValue(userPurseAddress);
-        console.log(userWalletAddress, inforToken);
-        
+        // console.log(userWalletAddress, inforToken);
+        await updateBalance();
     }
     const OER_COVER_DEFAULT  = '/oerTextBookCover.png';
     return (

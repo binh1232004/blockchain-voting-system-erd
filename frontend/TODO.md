@@ -33,3 +33,5 @@ console.log(ba, hi)
 Solution
 Params.slug in dynamic routing of nextjs encode slug like using encodeURIComponent(slugify(slug))
 so storing encodeURIComponent(slugify(slug)) in api to find right oer when comparing params.slug
+# FEATURE
+1. Adding api to simple database
