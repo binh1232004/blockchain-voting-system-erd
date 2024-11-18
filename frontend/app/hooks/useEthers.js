@@ -4,6 +4,10 @@ import tokenArtifact from "../contracts/tokenArtifact.json";
 import votingAddress from "../contracts/votingAddress.json";
 import votingArtifact from "../contracts/votingArtifact.json";
 
+/**
+ * 
+ * @description this hooks used to initialize contract 
+ */
 export default function useEthers(){
     /**
      * 

@@ -3,6 +3,7 @@ import { useState } from 'react';
 /**
  * 
  * @todo Improve performance userWalletAddress and inforToken keep always updated
+ * @description this hook used to connect to metamask
  */
 export default function useMetaMask(openNotificationWithIcon){
     if(!openNotificationWithIcon)

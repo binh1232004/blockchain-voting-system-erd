@@ -2,6 +2,10 @@
 import {  useState } from 'react';
 import useEthers from './useEthers';
 import {ethers} from "ethers"
+/**
+ * 
+ * @description this hook used to do thing involve with vote 
+ */
 export default function useVoting(){
     
     const DECIMALS = 18;

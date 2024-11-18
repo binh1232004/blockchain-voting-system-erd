@@ -3,10 +3,11 @@
 import { useState } from "react";
 import useEthers from "./useEthers";
 
+
 /**
  * 
- * @param {number|undefined} oerId if undefined, only using AllOERVote
- * 
+ * @param {number} oerId 
+ * @description this hook used to get vote of one oer based on id
  */
 export default function useOERVote(oerId){
     const  {

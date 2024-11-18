@@ -3,6 +3,7 @@ import useEthers from './useEthers';
 /**
  * 
  * @todo Improve performance userWalletAddress and inforToken keep always updated
+ * @description this hook used to initialize general information token like name, symbol
  */
 export default function useToken(){
     
