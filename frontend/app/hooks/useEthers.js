@@ -7,11 +7,20 @@ import votingArtifact from "../contracts/votingArtifact.json";
 export default function useEthers(){
     /**
      * 
+     * @param {string|undefined} userWalletAddress 
+     * @returns {Promise<>} signer of userWallet or default wallet
+     */
+    const getSignerWithUserWalletAddress = async (userWalletAddress) => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner(userWalletAddress || 0);
+        return signer; 
+    }
+    /**
+     * @param {string|undefined} userWalletAddress
      * @returns { Promise<Proxy> } contract of Token
      */
-    const initializeTokenContract = async () => {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
+    const initializeTokenContract = async (userWalletAddress) => {
+        const signer = await getSignerWithUserWalletAddress(userWalletAddress)
         const contract = new ethers.Contract(
             tokenAddress.Token,
             tokenArtifact.abi,
@@ -21,12 +30,11 @@ export default function useEthers(){
     }
 
     /**
-     * 
+     * @param {string|undefined} userWalletAddress
      * @returns { Promise<Proxy> } contract of Voting
      */
-    const initializeVotingContract = async () => {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
+    const initializeVotingContract = async (userWalletAddress) => {
+        const signer = await getSignerWithUserWalletAddress(userWalletAddress);
         const contract = new ethers.Contract(
             votingAddress.Token,
             votingArtifact.abi,

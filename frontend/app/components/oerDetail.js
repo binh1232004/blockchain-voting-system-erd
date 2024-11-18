@@ -6,6 +6,7 @@ import { isValidUrl } from "../utils";
 import { useEffect, useState } from "react";
 import useToken from "../hooks/useToken";
 import useVoting from "../hooks/useVoting";
+import useOERVote from "../hooks/useOERVote";
 export default function OerDetail({title, pdf, imgUrl, description, oerId}){
     // BUG: one time click it show two "1"
     // const [count ,setCount] = useState(0);
@@ -30,16 +31,26 @@ export default function OerDetail({title, pdf, imgUrl, description, oerId}){
         claimVotingTokens,
         voteTokens
     } = useVoting();
-    const handleConnectWalletButton = async () => {
-        await connectSetUserWallet();
-        await intializeGeneralInforToken();
-    }
+
+    const { 
+        setOneOERVoteFromEthereum, 
+        oneOERVote 
+    } = useOERVote(oerId);
+
     useEffect(() => {
         if(userWalletAddress)
             updateCurrentToken(userWalletAddress)
     }, [userWalletAddress]);
+    useEffect(() => {
+        setOneOERVoteFromEthereum();
+    }, []);
+    const handleConnectWalletButton = async () => {
+        await connectSetUserWallet();
+        await intializeGeneralInforToken();
+    }
     const handleVoteButton = async () => {
-        await voteTokens(oerId, 10);
+        await voteTokens(oerId, 10, userWalletAddress);
+        await setOneOERVoteFromEthereum();
     }
     const handleClaimVotingTokensButton = async () => {
         await claimVotingTokens(userWalletAddress);
@@ -57,7 +68,7 @@ export default function OerDetail({title, pdf, imgUrl, description, oerId}){
                 />
             </div>
             <div className="w-1/2 bg-red-700 h-[100px]">
-                <h1>{title}</h1>
+                <h1>{title + " " + oneOERVote }</h1>
 { 
     !userWalletAddress ? 
                 ( <button className=" mt-2 p-1 bg-slate-300" onClick={handleConnectWalletButton}>Connect wallet</button> ) :

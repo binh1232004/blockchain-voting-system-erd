@@ -23,9 +23,8 @@ contract OERVoting {
             votingToken.balanceOf(msg.sender) >= tokenAmount,
             "Not have enough tokens"
         );
-        // Below code cause bug
+
         votingToken.transferFrom(msg.sender, address(this), tokenAmount );
-        console.log("%s will be voted for %s token and have %s balance", oerId, tokenAmount, votingToken.balanceOf(msg.sender));
         oerPerUserVotes[oerId][msg.sender] += tokenAmount;
         oerTotalVotes[oerId] += tokenAmount;
     }
