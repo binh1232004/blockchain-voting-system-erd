@@ -36,6 +36,7 @@ so storing encodeURIComponent(slugify(slug)) in api to find right oer when compa
 2. click one time, it show 2 times in frontend > app > components > oerDetail
 3. Only claim 10 tokens, if config in metamask > settings > advanced > clear activity tab data
 4. Do not have enough ETH to do transaction;
+5. oert is in decimal place
 # FEATURE
 1. Adding api to simple database
 2. Replace utils file into folder and separte each files
