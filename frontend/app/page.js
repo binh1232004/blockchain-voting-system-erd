@@ -20,6 +20,7 @@ export default function Home() {
           imgUrl={
             item.img_url
           }
+          oerId={item.id}
         />
       ))}
     </main>

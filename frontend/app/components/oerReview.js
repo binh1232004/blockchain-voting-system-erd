@@ -2,8 +2,17 @@
 import Link from "next/link"
 import Image from "next/image"
 import { isValidUrl } from "../utils"
-export default function OerReview({title, imgUrl, route}){
+import useOERVote from "../hooks/useOERVote"
+import { useEffect } from "react"
+export default function OerReview({title, imgUrl, route, oerId}){
     const OER_COVER_DEFAULT  = '/oerTextBookCover.png';
+    const {
+        setOneOERVoteFromEthereum,
+        oneOERVote
+    } = useOERVote(oerId);
+    useEffect(() => {
+        setOneOERVoteFromEthereum();
+    },[])
     return (
         <div className="flex flex-row space-x-2 mt-5">
 
@@ -16,7 +25,7 @@ export default function OerReview({title, imgUrl, route}){
                 />
             </div>
             <div className="w-1/2 bg-red-700 h-[100px]">
-                <h1>{title}</h1>
+                <h1>{title + " " + oneOERVote}</h1>
                 <Link className=" mt-2 p-1 bg-slate-300" href={route}>Click me</Link>
             </div>
         </div> 
