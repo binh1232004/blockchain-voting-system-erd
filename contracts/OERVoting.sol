@@ -2,6 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "hardhat/console.sol";
 
 contract OERVoting {
     // struct vote {
@@ -15,13 +16,16 @@ contract OERVoting {
         votingToken = IERC20(_tokenAddress);
     }
 
-    function voteToken(uint256 oerId, uint256 tokenAmount) external{
+    function voteToken(uint256 oerId, uint256 tokenAmount) external payable{
+
         require(tokenAmount > 0, "Token amount must be positive");
         require(
             votingToken.balanceOf(msg.sender) >= tokenAmount,
             "Not have enough tokens"
         );
-        votingToken.transferFrom(msg.sender, address(this), tokenAmount);
+        // Below code cause bug
+        votingToken.transferFrom(msg.sender, address(this), tokenAmount );
+        console.log("%s will be voted for %s token and have %s balance", oerId, tokenAmount, votingToken.balanceOf(msg.sender));
         oerPerUserVotes[oerId][msg.sender] += tokenAmount;
         oerTotalVotes[oerId] += tokenAmount;
     }

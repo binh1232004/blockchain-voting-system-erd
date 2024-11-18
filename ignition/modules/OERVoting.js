@@ -6,5 +6,5 @@ const { buildModule } = require("@nomicfoundation/hardhat-ignition/modules");
 module.exports = buildModule("VotingModule", (m) => {
   const tokenContract = m.contract("OERToken");
   const votingContract = m.contract("OERVoting", [tokenContract]);
-  return {votingContract};
+  return {votingContract, tokenContract};
 })

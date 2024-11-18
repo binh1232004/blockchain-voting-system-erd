@@ -33,5 +33,8 @@ console.log(ba, hi)
 Solution
 Params.slug in dynamic routing of nextjs encode slug like using encodeURIComponent(slugify(slug))
 so storing encodeURIComponent(slugify(slug)) in api to find right oer when comparing params.slug
+2. click one time, it show 2 times in frontend > app > components > oerDetail
+3. Only claim 10 tokens, if config in metamask > settings > advanced > clear activity tab data
 # FEATURE
 1. Adding api to simple database
+2. Replace utils file into folder and separte each files

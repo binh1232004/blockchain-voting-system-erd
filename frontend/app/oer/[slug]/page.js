@@ -19,6 +19,7 @@ export default function Page({params}) {
                 title={detailOer.title}
                 description={detailOer.description}
                 imgUrl={detailOer.img_url}
+                oerId={detailOer.id}
             />
             <Link href={"/"} className="p-3 bg-slate-500"> Back home</Link>
         </div>
