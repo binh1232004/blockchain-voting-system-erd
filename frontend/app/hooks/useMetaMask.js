@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import useVoting from './useVoting';
 /**
  * 
- * @todo Improve performance userWalletAddress and inforToken keep always updated
- * @description this hook used to connect to metamask
+ * @description this hook used to do thing involve in metamask
  */
 export default function useMetaMask(openNotificationWithIcon){
     if(!openNotificationWithIcon)

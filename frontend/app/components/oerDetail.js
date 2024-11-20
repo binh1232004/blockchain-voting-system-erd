@@ -8,9 +8,6 @@ import useToken from "../hooks/useToken";
 import useVoting from "../hooks/useVoting";
 import useOERVote from "../hooks/useOERVote";
 export default function OerDetail({title, pdf, imgUrl, description, oerId }){
-    // BUG: one time click it show two "1"
-    // const [count ,setCount] = useState(0);
-    // console.log(1);
     const {
         openNotificationWithIcon,
         contextHolder
