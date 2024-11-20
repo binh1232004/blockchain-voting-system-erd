@@ -10,7 +10,6 @@ export default function useVoting(openNotificationWithIcon){
     const ERROR_MESSAGE_TIME = "Waiting for next claim";
     const ERROR_MESSAGE_MAX_USER_TOKEN = "Max tokens per user reached";
     const ERROR_MESSAGE_MAX_TOKEN = "Max tokens reached";
-    const DECIMALS = 18;
     /**
      * State to store user's token information
      * @type {[{balance: number}, React.Dispatch<React.SetStateAction<TokenInfo>>]}
