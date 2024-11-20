@@ -9,6 +9,7 @@ contract OERVoting {
     //     uint256 tokenAmount;
     //     uint256 timestamp;
     // }
+    uint256 public constant DECIMALS = 18;
     mapping (uint256 => mapping (address => uint256)) public oerPerUserVotes; // oerId -> userAddress -> vote
     mapping (uint256 => uint256) public oerTotalVotes; // oerId -> total vote
     IERC20 public votingToken;
@@ -26,6 +27,6 @@ contract OERVoting {
 
         votingToken.transferFrom(msg.sender, address(this), tokenAmount );
         oerPerUserVotes[oerId][msg.sender] += tokenAmount;
-        oerTotalVotes[oerId] += tokenAmount;
+        oerTotalVotes[oerId] += tokenAmount / (10 ** DECIMALS);
     }
 }

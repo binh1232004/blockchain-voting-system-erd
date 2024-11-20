@@ -47,13 +47,18 @@ export default function useEthers(){
         return contract;
 
     }
-    const parseEther = (tokenAmount) => {
-        return ethers.parseEther(tokenAmount);
+    /**
+     * 
+     * @param {string} tokenAmount  decimal string
+     * @returns {BigInt}
+     */
+    const transformEtherToWei = (tokenAmount) => {
+        return ethers.parseEther(tokenAmount, 18);
     }
     /**
      * 
-     * @param {Big int} tokenAmount 
-     * @returns {number}
+     * @param {BigInt} tokenAmount 
+     * @returns {string} decimal string
      */
     const transformWeiToEther = (tokenAmount) => {
         return ethers.formatUnits(tokenAmount, 18);
@@ -61,7 +66,7 @@ export default function useEthers(){
     return {
         initializeTokenContract,
         initializeVotingContract,
-        parseEther,
+        transformEtherToWei,
         transformWeiToEther
     };
 }

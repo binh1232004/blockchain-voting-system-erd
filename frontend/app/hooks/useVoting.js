@@ -19,8 +19,8 @@ export default function useVoting(openNotificationWithIcon){
     const {
         initializeTokenContract,
         initializeVotingContract,
-        parseEther,
-        transformWeiToEther
+        transformWeiToEther,
+        transformEtherToWei
     } = useEthers();
 
     /**
@@ -30,9 +30,8 @@ export default function useVoting(openNotificationWithIcon){
     const updateCurrentToken = async (userAddress) => {
         const tokenContract = await initializeTokenContract(userAddress);
         const balance = await tokenContract.balanceOf(userAddress);
-        const actualBalance = transformWeiToEther( balance );
+        const actualBalance = Number(transformWeiToEther( balance ));
         setUserToken({ balance: actualBalance })
-        console.log(1);
     }
     /**
      * 
@@ -53,10 +52,8 @@ export default function useVoting(openNotificationWithIcon){
                 openNotificationWithIcon("error", "ERROR", ERROR_MESSAGE_MAX_USER_TOKEN, 2);
             else if(errorMessage.includes(ERROR_MESSAGE_MAX_TOKEN))
                 openNotificationWithIcon("error", "ERROR", ERROR_MESSAGE_MAX_TOKEN, 2);
-            else{
+            else
                 openNotificationWithIcon("error", "ERROR", "An unknown error", 2);
-
-            }
 
 
         }
@@ -70,12 +67,16 @@ export default function useVoting(openNotificationWithIcon){
      */
     const voteTokens = async (oerId, tokenAmount, userAddress) => {
         try{
+            // initialize contract
             const tokenContract = await initializeTokenContract(userAddress);
             const votingContract = await initializeVotingContract(userAddress);
+            // Get and ask for amount of vote token
+            const actualTokenAmount = transformEtherToWei(tokenAmount.toString());
             const votingContractAddress = await votingContract.getAddress(); 
-            const approveForTransaction = await tokenContract.approve(votingContractAddress, tokenAmount);
+            const approveForTransaction = await tokenContract.approve(votingContractAddress, actualTokenAmount);
             await approveForTransaction.wait();
-            const voteForOER = await votingContract.voteToken(oerId, tokenAmount);
+            // Confirm for that amount
+            const voteForOER = await votingContract.voteToken(oerId, actualTokenAmount);
             await voteForOER.wait();
             await updateCurrentToken(userAddress);
         } catch (error){

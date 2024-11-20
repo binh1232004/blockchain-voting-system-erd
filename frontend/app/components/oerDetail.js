@@ -49,7 +49,7 @@ export default function OerDetail({title, pdf, imgUrl, description, oerId }){
         await intializeGeneralInforToken();
     }
     const handleVoteButton = async () => {
-        await voteTokens(oerId, 10, userWalletAddress);
+        await voteTokens(oerId, 1, userWalletAddress);
         await setOneOERVoteFromEthereum();
     }
     const handleClaimVotingTokensButton = async () => {
