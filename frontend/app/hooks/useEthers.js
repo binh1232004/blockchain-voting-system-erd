@@ -50,9 +50,18 @@ export default function useEthers(){
     const parseEther = (tokenAmount) => {
         return ethers.parseEther(tokenAmount);
     }
+    /**
+     * 
+     * @param {Big int} tokenAmount 
+     * @returns {number}
+     */
+    const transformWeiToEther = (tokenAmount) => {
+        return ethers.formatUnits(tokenAmount, 18);
+    }
     return {
         initializeTokenContract,
         initializeVotingContract,
-        parseEther
+        parseEther,
+        transformWeiToEther
     };
 }
