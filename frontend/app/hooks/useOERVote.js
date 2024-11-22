@@ -11,7 +11,7 @@ import useEthers from "./useEthers";
  */
 export default function useOERVote(oerId){
     const  {
-        initializeVotingContract
+        getReadOnlyVotingContract
     } = useEthers();
     const [oneOERVote, setOneOERVote] = useState(0);
     /**
@@ -20,7 +20,7 @@ export default function useOERVote(oerId){
      * @returns {Promise<number>} vote for one oer
      */
     const setOneOERVoteFromEthereum = async () => {
-        const votingContract = await  initializeVotingContract();
+        const votingContract = getReadOnlyVotingContract();
         const voteForOER = await votingContract.oerTotalVotes(oerId);
         setOneOERVote(Number(voteForOER));
     };

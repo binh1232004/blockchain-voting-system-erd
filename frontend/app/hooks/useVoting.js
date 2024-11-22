@@ -16,8 +16,8 @@ export default function useVoting(openNotificationWithIcon){
      */
     const [userToken, setUserToken] = useState({});
     const {
-        initializeTokenContract,
-        initializeVotingContract,
+        getSignedTokenContract,
+        getSignedVotingContract,
         transformWeiToEther,
         transformEtherToWei
     } = useEthers();
@@ -27,7 +27,7 @@ export default function useVoting(openNotificationWithIcon){
      * @param {string} userAddress 
      */
     const updateCurrentToken = async (userAddress) => {
-        const tokenContract = await initializeTokenContract(userAddress);
+        const tokenContract = await getSignedTokenContract(userAddress);
         const balance = await tokenContract.balanceOf(userAddress);
         const actualBalance = Number(transformWeiToEther( balance ));
         setUserToken({ balance: actualBalance })
@@ -39,7 +39,7 @@ export default function useVoting(openNotificationWithIcon){
      */
     const claimVotingTokens = async (userAddress) => {
         try{ 
-            const tokenContract = await initializeTokenContract(userAddress);
+            const tokenContract = await getSignedTokenContract(userAddress);
             const tx = await tokenContract.claimVotingTokens();
             await tx.wait();
             await updateCurrentToken(userAddress);
@@ -67,8 +67,8 @@ export default function useVoting(openNotificationWithIcon){
     const voteTokens = async (oerId, tokenAmount, userAddress) => {
         try{
             // initialize contract
-            const tokenContract = await initializeTokenContract(userAddress);
-            const votingContract = await initializeVotingContract(userAddress);
+            const tokenContract = await getSignedTokenContract(userAddress);
+            const votingContract = await getSignedVotingContract(userAddress);
             // Get and ask for amount of vote token
             const actualTokenAmount = transformEtherToWei(tokenAmount.toString());
             const votingContractAddress = await votingContract.getAddress(); 

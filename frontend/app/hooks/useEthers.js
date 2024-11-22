@@ -11,20 +11,64 @@ import votingArtifact from "../contracts/votingArtifact.json";
 export default function useEthers(){
     /**
      * 
+     * @returns RPC provider
+     */
+    const getFallbackProvider = () => {
+        const RPC_ENDPOINT = process.env.NEXT_PUBLIC_RPC_URL;
+        return new ethers.JsonRpcProvider(RPC_ENDPOINT);
+    }
+    /**
+     * 
+     * @returns if having MetaMask return provider MetaMask, else RPC provider
+     */
+    const getProvider = () => {
+        if(window.ethereum){
+            return new ethers.BrowserProvider(window.ethereum);
+        }
+        return getFallbackProvider();
+    }
+    /**
+     * 
      * @param {string|undefined} userWalletAddress 
      * @returns {Promise<>} signer of userWallet or default wallet
      */
-    const getSignerWithUserWalletAddress = async (userWalletAddress) => {
-        const provider = new ethers.BrowserProvider(window.ethereum);
+    const getSigner = async (userWalletAddress) => {
+        const provider = getProvider();
         const signer = await provider.getSigner(userWalletAddress || 0);
         return signer; 
     }
     /**
-     * @param {string|undefined} userWalletAddress
-     * @returns { Promise<Proxy> } contract of Token
+     * 
+     * @returns {Proxy} only can read from token contract
      */
-    const initializeTokenContract = async (userWalletAddress) => {
-        const signer = await getSignerWithUserWalletAddress(userWalletAddress)
+    const getReadOnlyTokenContract = () => {
+        const provider = getProvider();
+        const contract = new ethers.Contract(
+            tokenAddress.Token,
+            tokenArtifact.abi,
+            provider
+        );
+        return contract;
+    }
+    /**
+     * 
+     * @returns {Proxy} only can read from voting contract
+     */
+    const getReadOnlyVotingContract = () => {
+        const provider = getProvider();
+        const contract = new ethers.Contract(
+            votingAddress.Token,
+            votingArtifact.abi,
+            provider
+        );
+        return contract;
+    }
+    /**
+     * @param {string|undefined} userWalletAddress
+     * @returns { Promise<Proxy> } can write, change state to Token contract
+     */
+    const getSignedTokenContract = async (userWalletAddress) => {
+        const signer = await getSigner(userWalletAddress)
         const contract = new ethers.Contract(
             tokenAddress.Token,
             tokenArtifact.abi,
@@ -35,17 +79,16 @@ export default function useEthers(){
 
     /**
      * @param {string|undefined} userWalletAddress
-     * @returns { Promise<Proxy> } contract of Voting
+     * @returns { Promise<Proxy> } can write, change state to voting contract
      */
-    const initializeVotingContract = async (userWalletAddress) => {
-        const signer = await getSignerWithUserWalletAddress(userWalletAddress);
+    const getSignedVotingContract = async (userWalletAddress) => {
+        const signer = await getSigner(userWalletAddress);
         const contract = new ethers.Contract(
             votingAddress.Token,
             votingArtifact.abi,
             signer
         );
         return contract;
-
     }
     /**
      * 
@@ -64,8 +107,10 @@ export default function useEthers(){
         return ethers.formatUnits(tokenAmount, 18);
     }
     return {
-        initializeTokenContract,
-        initializeVotingContract,
+        getSignedTokenContract,
+        getReadOnlyTokenContract,
+        getSignedVotingContract,
+        getReadOnlyVotingContract,
         transformEtherToWei,
         transformWeiToEther
     };

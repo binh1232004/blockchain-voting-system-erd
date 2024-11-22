@@ -12,7 +12,7 @@ export default function useToken(){
      */
     const [inforToken, setInforToken] = useState({});
     const {
-        initializeTokenContract,
+        getSignedTokenContract,
     }  = useEthers();
 
     /**
@@ -20,7 +20,7 @@ export default function useToken(){
      */
     const intializeGeneralInforToken = async () => {
         try {
-            const tokenContract = await initializeTokenContract();
+            const tokenContract = await getSignedTokenContract();
             if(!tokenContract)
                 throw new Error('Contract not defined');
             const symbol = await tokenContract.symbol(); 
