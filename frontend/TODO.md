@@ -33,9 +33,12 @@ console.log(ba, hi)
 Solution
 Params.slug in dynamic routing of nextjs encode slug like using encodeURIComponent(slugify(slug))
 so storing encodeURIComponent(slugify(slug)) in api to find right oer when comparing params.slug
-2. click one time, it show 2 times in frontend > app > components > oerDetail
+~~2. CLICK ONE TIME, IT SHOW 2 TIMES IN FRONTEND > APP > COMPONENTS > OERdETAIL~~
+Solution
+In react strict mode it will render 2 times
 3. Only claim 10 tokens, if config in metamask > settings > advanced > clear activity tab data
 4. Do not have enough ETH to do transaction;
+5. Do not catch exception in Voting contract, useVoting > voteTokens
 # FEATURE
 1. Adding api to simple database
 2. Replace utils file into folder and separte each files
