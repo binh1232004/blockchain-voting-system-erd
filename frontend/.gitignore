@@ -36,4 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 # contract address, artifact
-./app/contracts/*
+/app/contracts/*
