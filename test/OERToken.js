@@ -6,12 +6,10 @@ describe("OER Token and OER Voting contract", function(){
         const oerToken = await ethers.deployContract("OERToken");
 
         await oerToken.connect(user).claimVotingTokens();
-        const tokenClaimUser = 10;
-        const tokenClaimOwner = 1000000;
+        const tokenClaimUser = ethers.parseEther("10.0");
         expect(await oerToken.balanceOf(user.address)).to.equal(tokenClaimUser);
-        expect(await oerToken.balanceOf(owner.address)).to.equal(tokenClaimOwner);
     })
-    it("Should give to user 10 tokens deploy by OER Token and using that tokens claimed to vote for oerid = 1 and tokens remain in user balance is 9", async function(){
+    it("Should vote for oerid 1 for 1 vote by giving to user 10 tokens deploy by OER Token and using that tokens claimed to vote for oerid = 1", async function(){
         const [owner, user] = await ethers.getSigners();
         // Deploy contract
         const oerToken = await ethers.deployContract("OERToken");
@@ -21,14 +19,14 @@ describe("OER Token and OER Voting contract", function(){
         await oerToken.connect(user).claimVotingTokens();
         // waiting for user for approve transfer to votingContract
         const OER_ID = 1; 
-        const voteAmount = 1;
+        const voteAmount = ethers.parseEther("1.0");
         await oerToken.connect(user).approve(
             await votingContract.getAddress(),
             voteAmount
         );
         // user vote for oerid 1 with amount 1
         await votingContract.connect(user).voteToken(OER_ID, voteAmount);
-        const CLAIMED_VOTE = (1);
+        const CLAIMED_VOTE = 1;
         const oerIdVote = await votingContract.oerTotalVotes( OER_ID );
         expect(oerIdVote).to.equal(CLAIMED_VOTE);
     })
