@@ -5,7 +5,7 @@ import { encodeSlug } from "./utils.js";
 export default function Home() {
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data: oer, error, isLoading } = useSWR(
-    "/api/oer/openTextBook",
+    process.env.NEXT_PUBLIC_DATA_OER_URL,
     fetcher
   );
   if (error) return "An error has occurred.";

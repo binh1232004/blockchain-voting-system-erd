@@ -14,6 +14,7 @@ export default function useOERVote(oerId){
         getReadOnlyVotingContract
     } = useEthers();
     const [oneOERVote, setOneOERVote] = useState(0);
+    const [OERDIdDecreaseByVote, setOERIdDecreaseByVote] = useState([]);
     /**
      * 
      * @param {number} oerId 

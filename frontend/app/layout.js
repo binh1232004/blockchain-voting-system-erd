@@ -1,6 +1,7 @@
 import localFont from "next/font/local";
-import Image from "next/image";
+import { redirect } from "next/navigation";
 import "./globals.css";
+import Header from "./components/header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,20 +19,15 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const handleClickLogo = () => {
+    redirect("/");
+  }
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header className="bg-black w-full h-10 lg:h-16">
-          <div id="logo" className="bg-red-400 w-10 h-10 rounded">
-            {/* <Image 
-              src={"icon.png"}
-              width={100}
-              height={100}
-            /> */}
-          </div>
-        </header>
+        <Header />
         {children}
 
       </body>

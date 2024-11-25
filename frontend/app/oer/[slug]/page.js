@@ -7,7 +7,7 @@ import slugify from "slugify";
 export default function Page({params}) {
     const fetcher = (url) => fetch(url).then((res) => res.json());
     const { data: oer, error, isLoading } = useSWR(
-        "/api/oer/openTextBook",
+        process.env.NEXT_PUBLIC_DATA_OER_URL,
         fetcher
     );
     if (error) return "An error has occurred.";
