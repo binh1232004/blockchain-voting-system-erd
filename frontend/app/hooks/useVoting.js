@@ -44,6 +44,7 @@ export default function useVoting(openNotificationWithIcon){
             await tx.wait();
             await updateCurrentToken(userAddress);
         }catch(error){
+            console.log(error.message);
             const errorMessage = error.message;
             if(errorMessage.includes(ERROR_MESSAGE_TIME))
                 openNotificationWithIcon("error", "ERROR", ERROR_MESSAGE_TIME, 2);

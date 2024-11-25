@@ -3,6 +3,8 @@ import tokenAddress from "../contracts/tokenAddress.json";
 import tokenArtifact from "../contracts/tokenArtifact.json";
 import votingAddress from "../contracts/votingAddress.json";
 import votingArtifact from "../contracts/votingArtifact.json";
+import faucetAddress from "../contracts/faucetAddress.json";
+import faucetArtifact from "../contracts/faucetArtifact.json";
 
 /**
  * 
@@ -90,6 +92,15 @@ export default function useEthers(){
         );
         return contract;
     }
+    const getSignedFaucetContract = async (userWalletAddress) => {
+        const signer = await getSigner(userWalletAddress);
+        const contract = new ethers.Contract(
+            faucetAddress.Token,
+            faucetArtifact.abi,
+            signer
+        );
+        return contract;
+    }
     /**
      * 
      * @param {string} tokenAmount  decimal string
@@ -112,6 +123,7 @@ export default function useEthers(){
         getSignedVotingContract,
         getReadOnlyVotingContract,
         transformEtherToWei,
-        transformWeiToEther
+        transformWeiToEther,
+        getSignedFaucetContract
     };
 }

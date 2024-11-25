@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import useToken from "../hooks/useToken";
 import useVoting from "../hooks/useVoting";
 import useOERVote from "../hooks/useOERVote";
+import useFaucet from "../hooks/useFaucet";
 export default function OerDetail({title, pdf, imgUrl, description, oerId }){
     const {
         openNotificationWithIcon,
@@ -34,6 +35,7 @@ export default function OerDetail({title, pdf, imgUrl, description, oerId }){
         oneOERVote 
     } = useOERVote(oerId);
 
+    const {requestEth}= useFaucet();
     useEffect(() => {
         if(userWalletAddress)
             updateCurrentToken(userWalletAddress)

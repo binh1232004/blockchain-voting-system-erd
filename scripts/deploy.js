@@ -5,13 +5,13 @@ const fs = require('fs');
 const path = require('path');
 async function main() {
     const { votingContract, tokenContract } = await hre.ignition.deploy(VotingModule);
-    const { faucetContract } = await hre.ignition.deploy(FaucetModule);
+    // const { faucetContract } = await hre.ignition.deploy(FaucetModule);
     const votingAddress = await votingContract.getAddress();
     const tokenAddress = await tokenContract.getAddress();
-    const faucetAddress = await faucetContract.getAddress();
+    // const faucetAddress = await faucetContract.getAddress();
     saveFrontendFiles(votingAddress, "votingAddress","votingArtifact", "OERVoting");
     saveFrontendFiles(tokenAddress, "tokenAddress","tokenArtifact", "OERToken");
-    saveFrontendFiles(faucetAddress, "faucetAddress","faucetArtifact", "Faucet");
+    // saveFrontendFiles(faucetAddress, "faucetAddress","faucetArtifact", "Faucet");
 }
 
 function saveFrontendFiles(tokenAddress, fileAddressName, fileAbiName, contractName) {

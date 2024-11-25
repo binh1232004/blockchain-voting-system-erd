@@ -14,20 +14,23 @@ export default function OerReview({title, imgUrl, route, oerId}){
         setOneOERVoteFromEthereum();
     },[])
     return (
-        <div className="flex flex-row space-x-2 mt-5">
+    <Link href={route}>
+        <div className="flex flex-row  mt-5 rounded bg-slate-300 mx-5 p-3 h-[150px]">
 
-            <div className="w-1/2 bg-gray-700 h-[100px]">
+            <div className="w-1/2 flex flex-row">
                 <Image
                     src={isValidUrl( imgUrl ) ? imgUrl : OER_COVER_DEFAULT }     
                     width={100}
                     height={100}
                     alt="Image of open educational text book"
+                    className="rounded"
                 />
             </div>
-            <div className="w-1/2 bg-red-700 h-[100px]">
-                <h1>{title + " " + oneOERVote}</h1>
-                <Link className=" mt-2 p-1 bg-slate-300" href={route}>Click me</Link>
+            <div className="flex flex-col w-1/2   text-xs md:text-sm lg:text-xl">
+                <h1 className="font-bold">{title}</h1>
+                <h1 className="">Total votes: {oneOERVote} OERT</h1>
             </div>
         </div> 
+    </Link>
     )
 }
