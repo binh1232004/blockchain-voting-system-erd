@@ -1,13 +1,9 @@
 'use client'
 import OerReview from "./components/oerReview.js";
-import useSWR from "swr";
 import { encodeSlug } from "./utils.js";
+import useSWRCustom from "./hooks/useSWRCustom.js";
 export default function Home() {
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data: oer, error, isLoading } = useSWR(
-    process.env.NEXT_PUBLIC_DATA_OER_URL,
-    fetcher
-  );
+  const {oer, error, isLoading} = useSWRCustom();
   if (error) return "An error has occurred.";
   if (isLoading) return "Loading...";
   return (
