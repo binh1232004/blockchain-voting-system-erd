@@ -41,3 +41,11 @@ export function isValidUrl(urlArg){
   }
   return true;
 }
+/**
+ * 
+ * @param {Int} oerA 
+ * @param {Int} oerB 
+ */
+export function compareFnToGetDecreaseVote(oerA, oerB){
+  return Number(oerB.vote) - Number(oerA.vote);
+}
